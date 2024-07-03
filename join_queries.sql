@@ -117,18 +117,17 @@ SELECT
     `students`.`id` AS `student_id`,
     `students`.`name` AS `student_name`,
     `students`.`surname` AS `student_surname`,
-    `exams`.`id` AS `exam_id`,
     COUNT(`exam_student`.`vote`) AS `attempt_count`,
     MAX(`exam_student`.`vote`) AS `max_grade`
 FROM
     `students`
 JOIN `exam_student` ON `students`.`id` = `exam_student`.`student_id`
 JOIN `exams` ON `exam_student`.`exam_id` = `exams`.`id`
-WHERE
-    `exam_student`.`vote` >= 18
 GROUP BY
     `students`.`id`,
-    `exams`.`id`
+    `exams`.`course_id`
+HAVING
+    `max_grade` >= 18
 ORDER BY
     `students`.`surname`,
     `students`.`name`
